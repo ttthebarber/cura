@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/risk-checks/sanctions.py": {
+      "runtime": "python3.9"
+    }
+  }
+}

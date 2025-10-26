@@ -1,64 +1,119 @@
-# Cura
-Project management software for freelancers and small teams
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## App frontend
+## Getting Started
 
-### UI/UX
+First, run the development server:
 
-Font - inter
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-minimal design
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-lots of white space
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-clear textual hierarchy
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-bubbly and responsive animations - subtle but noticeable
+## Learn More
 
-sparingly used boarders
+To learn more about Next.js, take a look at the following resources:
 
-unconventional, but familiar ui/ux
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-easy to navigate
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-(study apple developer for more UI and UX tips)
+## Deploy on Vercel
 
-### UI colors
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Primary - #0d00ff
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-Secondary - #d9d9d9
+# App Details
 
-Bg - #ffffff
+## Vendor Due diligence
 
-Accent - #000000
+**The Issue:** Small and Medium-sized Businesses (SMBs) often skip in-depth due diligence when bringing on new vendors. This lack of attention leaves them vulnerable to severe risks, such as fraud, compliance violations, and operational disruption.
 
-Text - #000000
+**The Opportunity:** The majority of enterprise-class due diligence platforms (e.g., LexisNexis, D&B) are too costly or cumbersome for the average SMB. There is an obvious need for a low-cost, streamlined solution.
 
-### Function colors
+**What to Build:**
 
-Positive - #00d300
+- Lightweight, user-friendly vendor scoring algorithm based on top risk indicators.
+- Automated “red flag” alert system utilizing public data (e.g., bankruptcy filings, sanctions lists).
+- Vendor profiles are consolidated, and a thorough onboarding history dashboard is provided.
 
-Negative - #d30000
+**Data Point:** According to The World Bank, about 1 out of every 3 companies globally each year experience serious fraud coming from third-party suppliers, citing the global necessity of improved due diligence.
 
-Warning - #ffd100
+### What Users Do:
 
-**NB:** in dark mode, all colors except for the Primary and function colors is inverted
+1. **Sign up** → Add vendors (manual or CSV import)
+2. **Review risk scores** → Act on alerts
+3. **Make decisions** → Approve/reject vendors
+4. **Export reports** → For compliance/audits
 
-### Animations
+## What Happens Automatically:
 
-**Cards**
+### When Vendor Added:
 
-On appear and exit - pop up (smooth and bubbly)
+- Queue background risk assessment job
+- Run 5 parallel checks:
+    1. **Sanctions screening** (OFAC, UN, EU lists)
+    2. **Bankruptcy** filings
+    3. **Business registry** verification
+    4. **Domain analysis** (age, SSL, legitimacy)
+    5. **Negative news** screening
+- Calculate risk score (0-100)
+- Generate alerts if high risk (61+)
+- Send notifications
 
-**Button**
+### Scoring:
 
-Hover - increase size
+- Sanctions match: +90 pts → CRITICAL
+- Bankruptcy: +60 pts
+- Dissolved business: +50 pts
+- Negative news: +30 pts
+- No website/new domain: +20 pts
+- Can't verify: +40 pts
 
-Click - click animation
+**Result:** Low (0-30), Medium (31-60), High (61+)
 
-**Avatar**
+### Ongoing Monitoring:
 
-Hover - name and surname (pop up)
+- **Daily**: Sanctions checks
+- **Weekly**: News screening
+- **Monthly**: Full re-assessment
+- Alerts sent when new issues found
 
-**NB:** Any pop ups should have partial opacity
+## Cost Optimization:
+
+- **Cache everything**: Scores, API responses, dashboard metrics
+- Store results, don't recalculate
+- Batch operations
+
+- Use local cached sanctions lists
+
+## Architecture:
+
+- **Next.js** → UI + orchestration
+- **Python on Vercel** → Risk checks (separate functions per check type)
+- **Supabase** → Database + auth + storage
+- **Vercel Crons** → Scheduled jobs
+
+## Start Building Order:
+
+1. Auth + user setup
+2. Add vendor form → database
+3. One simple risk check (sanctions)
+4. Dashboard with vendor list
+5. Add remaining checks incrementally
+6. Alerts system
+7. Background monitoring
+
+**Key principle**: User adds vendor → everything else happens automatically in background → user just reviews results.
